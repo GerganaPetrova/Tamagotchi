@@ -1,5 +1,6 @@
 from kivy import clock
 from config import *
+from random import randint
 
 class Food:
 
@@ -14,12 +15,10 @@ class Tamagotchi:
         self._is_alive = True
         self.name = name
         self._energy = STARTING_ENERGY
-        self._play = STARTING_PLAY
         self._health = STARTING_HEALTH
         self._hunger = STARTING_HUNGER
-        self._clarity = STARTING_CLARITY
-        self._happiness = self._calculate_happiness()
-
+        self._clean = STARTING_CLEAN
+        self._happiness = STARTING_HAPPINESS
 
     def _calculate_happiness(self):
         return (self._energy + self._play + self._health
@@ -27,63 +26,73 @@ class Tamagotchi:
 
     def _feed(self, food):
         self.hunger += food.nutritive_value
-        if self.hunger > HUNGER:
-            self.hunger = HUNGER
+        if self.hunger > MAX_HUNGER
+            self.hunger = MAX_HUNGER
 
     def _heal(self):
-        if self.health < HEALTH / 2:
+        if self.health < MAX_HEALTH / 2:
             self.health += HEALTH_UPDATE
         else:
-            self.health = HEALTH
+            self.health = MAX_HEALTH
 
     def _clean(self):
-        self.clarity += CLARITY_UPDATE
+        self.clean += CLEAN_UPDATE
 
     def _kill(self):
         self._is_alive = False
 
     @property
     def is_hungry(self):
-        return self._hunger < HUNGER
+        return self._hunger < MAX_HUNGER
 
     @property
     def is_tired(self):
-        return self._energy < ENERGY
+        return self._energy < MAX_ENERGY
 
     @property
     def is_sad(self):
-        return self._play < PLAY
+        return self._calculate_happiness < MAX_HAPPINESS
 
     @property
     def is_sick(self):
-        return self._health < HEALTH
+        return self._health < MAX_HEALTH
 
     @property
     def is_dirty(self):
-        return self._clarity < CLARITY
+        return self._clean < MAX_CLEAN
 
     @property
-    def is_alice(self):
+    def is_alive(self):
         return self._is_alive
 
-    def state(self):
-        tamagotchi_state = {
-            'tired':  self.is_tired,
-            'hungry': self.is_hungry,
-            'sad':    self.is_sad,
-            'sick':   self.is_sick,
-            'dirty':  self.is_dirty,
-            'alive':  self.is_alive,
-        }
-        return tamagotchi_state
+class PandaGame:
 
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.touch_counter = 0
+
+    def start(self):
+        self.position = (randint(0, self.width), randint(0, self.height))
+
+    def hadle_touch(self, coordinates):
+        if coordinates[0] in range(0, self.width)\
+           and coordinates[1] in range(0, self.height):
+            self.touch_counter += 1
+        raise TypeError("Out of board")
+
+    def is_correct(self, coordinates):
+        return self.position == coordinates
+
+
+    def update(self):
+        self.position = (randint(0, self.width), randint(0, self.height))
 
 
 class Panda(Tamagotchi):
 
     def __init__(self, name):
         Tamagotchi.__init__(self, name)
-
 
     def play(self):
         pass
