@@ -1,0 +1,27 @@
+<LoginScreen>:
+    BoxLayout:
+        cols: 3
+        rows:3
+        orientation: 'vertical'
+        spacing: 10
+
+        BoxLayout:
+            id: name
+            TextInput:
+                id: text_input
+                hint_text: 'Choose name...'
+                multiline: False
+
+        BoxLayout:
+            id: panda
+            Button:
+                text: 'PANDA'
+                on_press: root.create_panda(text_input)
+
+        BoxLayout:
+            id: doctor
+            Button:
+                text: 'DOCTOR'
+                on_press: root.create_doctor(text_input)
+
+

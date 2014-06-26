@@ -13,32 +13,32 @@ class Tamagotchi:
 
     def __init__(self, name):
         self._is_alive = True
-        self.name = name
+        self._name = name
         self._energy = STARTING_ENERGY
         self._health = STARTING_HEALTH
         self._hunger = STARTING_HUNGER
         self._clean = STARTING_CLEAN
         self._happiness = STARTING_HAPPINESS
 
-    def _calculate_happiness(self):
-        return (self._energy + self._play + self._health
-                + self._hunger + self._clarity) / 5
+    def calculate_happiness(self):
+        return (self._energy +  self._health
+                + self._hunger + self._clean) / 4
 
-    def _feed(self, food):
+    def feed(self, food):
         self.hunger += food.nutritive_value
-        if self.hunger > MAX_HUNGER
+        if self.hunger > MAX_HUNGER:
             self.hunger = MAX_HUNGER
 
-    def _heal(self):
+    def heal(self):
         if self.health < MAX_HEALTH / 2:
             self.health += HEALTH_UPDATE
         else:
             self.health = MAX_HEALTH
 
-    def _clean(self):
+    def clean(self):
         self.clean += CLEAN_UPDATE
 
-    def _kill(self):
+    def kill(self):
         self._is_alive = False
 
     @property
@@ -65,7 +65,7 @@ class Tamagotchi:
     def is_alive(self):
         return self._is_alive
 
-class PandaGame:
+class ClickGame:
 
     def __init__(self, width, height):
         self.width = width
@@ -88,13 +88,20 @@ class PandaGame:
     def update(self):
         self.position = (randint(0, self.width), randint(0, self.height))
 
-
 class Panda(Tamagotchi):
 
     def __init__(self, name):
         Tamagotchi.__init__(self, name)
 
-    def play(self):
-        pass
 
+class Doctor(Tamagotchi):
 
+    def __init__(self, name):
+        Tamagotchi.__init__(self, name)
+        incarnation = 1
+
+    def kill(self):
+        if number > 11:
+            self.is_alive = False
+        else:
+            self.incarnation += 1
