@@ -5,8 +5,8 @@ from config import *
 
 class PandaScreen(Screen):
     def initialize(self):
-        self.name = self.manager.get_screen('login_screen').ids.text_input.text
-        self.panda = Panda(self.name)
+        name = self.manager.get_screen('login_screen').ids.text_input.text
+        self.panda = Panda(name)
         Clock.schedule_interval(self.make_hungry, HUNGER_TIME)
         Clock.schedule_interval(self.make_dirty, ClEAN_TIME)
         Clock.schedule_interval(self.make_sleep, SLEEP_TIME)

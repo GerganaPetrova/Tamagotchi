@@ -17,7 +17,7 @@ class GameScreen(Screen):
 
     def update(self, dt):
         if self.game.is_over:
-            print(self.game.position)
+            print('OVER')
             return False
         else:
             self.game.update()
@@ -43,6 +43,8 @@ class GameScreen(Screen):
                 return x, y
 
     def on_touch_down(self, touch):
+        if self.game.is_over:
+            self.manager.current = 'panda_screen'
         pos = self.coordinate_transform(touch.pos)
         if not pos:
             # evil bug :(
