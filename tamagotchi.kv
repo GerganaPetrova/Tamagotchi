@@ -110,50 +110,40 @@
     FloatLayout:
         Label:
             id: points
-            pos_hint: {'x': 0.2, 'y': 0.2}
+            pos_hint: {'x': 0.1, 'y': 0.1}
         Label:
             id: touch_count
-            pos_hint: {'x': -0.2, 'y': -0.2}
+            pos_hint: {'x': 0.1, 'y': 0.2}
         Label:
         GridLayout:
             size_hint: (1, 1)
             id: game_grid
             rows: 3
             cols: 3
-#on_touch_down: root.touch_handler(touch)
             BoxLayout:
-#on_touch_down: root.touch_handler((0, 0))
                 Image:
                     id: 0x0
             BoxLayout:
-#on_touch_down: root.touch_handler((0, 1))
                 Image:
                     id: 0x1
             BoxLayout:
-#on_touch_down: root.touch_handler((0, 2))
                 Image:
                     id: 0x2
             BoxLayout:
-#on_touch_down: root.touch_handler((1, 0))
                 Image:
                     id: 1x0
             BoxLayout:
-#on_touch_down: root.touch_handler((1, 1))
                 Image:
                     id: 1x1
             BoxLayout:
-#on_touch_down: root.touch_handler((1, 2))
                 Image:
                     id: 1x2
             BoxLayout:
-#on_touch_down: root.touch_handler((2, 0))
                 Image:
                     id: 2x0
             BoxLayout:
-#on_touch_down: root.touch_handler((2, 1))
                 Image:
                     id: 2x1
             BoxLayout:
-#on_touch_down: root.touch_handler((2, 2))
                 Image:
                     id: 2x2
