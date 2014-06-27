@@ -3,7 +3,6 @@ import itertools
 from kivy.app import App
 from kivy.lang import Builder
 from random import choice
-import os, sys
 import screens
 from core import *
 from config import *

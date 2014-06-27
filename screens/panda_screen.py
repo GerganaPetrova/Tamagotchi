@@ -75,7 +75,7 @@ class PandaScreen(Screen):
     def sleep_button(self):
         self.panda.sleep()
 
-    def play_button(button):
+    def play_button(self):
         self.manager.current = 'game_screen'
 
     def update_labels(self, dt):

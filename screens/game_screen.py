@@ -1,8 +1,12 @@
-import random
 import itertools
+import os
+from random import choice
 
 from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
+
+from core import ClickGame
+from config import *
 
 
 class GameScreen(Screen):
