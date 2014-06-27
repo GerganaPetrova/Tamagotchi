@@ -38,6 +38,11 @@ class Tamagotchi:
     def clean(self):
         self.clean += CLEAN_UPDATE
 
+    def get_sick(self):
+        if self._clean < 3 and self._hunger < 3 and self._energy < 3:
+            self._health -=  2
+
+
     def kill(self):
         self._is_alive = False
 

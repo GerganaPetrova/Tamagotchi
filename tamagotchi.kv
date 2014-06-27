@@ -1,9 +1,7 @@
 <LoginScreen>:
-    BoxLayout:
-        cols: 3
-        rows:3
-        orientation: 'vertical'
-        spacing: 10
+    GridLayout:
+        rows: 3
+        spacing: 50
 
         BoxLayout:
             id: name
@@ -15,13 +13,16 @@
         BoxLayout:
             id: panda
             Button:
-                text: 'PANDA'
                 on_press: root.create_panda(text_input)
-
+                Image:
+                    source: './images/pandas/panda_button.png'
+                    center: self.parent.center
         BoxLayout:
             id: doctor
             Button:
-                text: 'DOCTOR'
                 on_press: root.create_doctor(text_input)
+                Image:
+                    source: './images/doctors/08.5.png'
+                    center: self.parent.center
 
-
+    
