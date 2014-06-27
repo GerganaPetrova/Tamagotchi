@@ -38,12 +38,13 @@ class Tamagotchi:
     def happiness(self):
         return self._happiness
 
+
     def calculate_happiness(self):
         return (self._energy +  self._health
                 + self._hunger + self._clean) / 4
 
     def feed(self):
-        self._hunger += FOOD_UPDATE
+        self._hunger += HUNGER_UPDATE
         if self._hunger > MAX_HUNGER:
             self._hunger = MAX_HUNGER
 
@@ -62,18 +63,22 @@ class Tamagotchi:
         self._energy = MAX_ENERGY
 
     def get_sick(self):
-        if self._clean < 3 and self._hunger < 3 and self._energy < 3:
-            self._health -=  2
+        if self._health <= 0:
+            self._is_alive = False
         else:
-            self._health -= 1
+            self._health -= HEALTH_UPDATE
 
-    def kill(self):
-        self._is_alive = False
-        self._energy = 0
-        self._health = 0
-        self._hunger = 0
-        self._clean = 0
-        self._happiness = 0
+    def make_hungry(self):
+        if self._hunger >= 1:
+            self._hunger -= HUNGER_UPDATE
+
+    def make_dirty(self):
+        if self._clean >= 1:
+            self._clean -= CLEAN_UPDATE
+
+    def make_sleep(self):
+        if self._energy >= 1:
+            self._energy -= ENERGY_UPDATE
 
     @property
     def is_hungry(self):
@@ -98,6 +103,7 @@ class Tamagotchi:
     @property
     def is_alive(self):
         return self._is_alive
+
 
 class ClickGame:
 
