@@ -2,12 +2,6 @@ from kivy import clock
 from config import *
 from random import randint
 
-class Food:
-
-    def __init__(self, name, nutritive_value):
-        self.name = name
-        self.nutritive_value = nutritive_value
-
 
 class Tamagotchi:
 
@@ -20,31 +14,66 @@ class Tamagotchi:
         self._clean = STARTING_CLEAN
         self._happiness = STARTING_HAPPINESS
 
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def energy(self):
+        return self._energy
+
+    @property
+    def health(self):
+        return self._health
+
+    @property
+    def hunger(self):
+        return self._hunger
+
+    @property
+    def clean(self):
+        return self._clean
+
+    @property
+    def happiness(self):
+        return self._happiness
+
     def calculate_happiness(self):
         return (self._energy +  self._health
                 + self._hunger + self._clean) / 4
 
-    def feed(self, food):
-        self.hunger += food.nutritive_value
-        if self.hunger > MAX_HUNGER:
-            self.hunger = MAX_HUNGER
+    def feed(self):
+        self._hunger += FOOD_UPDATE
+        if self._hunger > MAX_HUNGER:
+            self._hunger = MAX_HUNGER
 
     def heal(self):
-        if self.health < MAX_HEALTH / 2:
-            self.health += HEALTH_UPDATE
+        if self._health <= MAX_HEALTH / 2:
+            self._health += HEALTH_UPDATE
         else:
-            self.health = MAX_HEALTH
+            self._health = MAX_HEALTH
 
-    def clean(self):
-        self.clean += CLEAN_UPDATE
+    def clear(self):
+        self._clean += CLEAN_UPDATE
+        if self._clean > 10:
+            self._clean = 10
+
+    def sleep(self):
+        self._energy = MAX_ENERGY
 
     def get_sick(self):
         if self._clean < 3 and self._hunger < 3 and self._energy < 3:
             self._health -=  2
-
+        else:
+            self._health -= 1
 
     def kill(self):
         self._is_alive = False
+        self._energy = 0
+        self._health = 0
+        self._hunger = 0
+        self._clean = 0
+        self._happiness = 0
 
     @property
     def is_hungry(self):
@@ -56,7 +85,7 @@ class Tamagotchi:
 
     @property
     def is_sad(self):
-        return self._calculate_happiness < MAX_HAPPINESS
+        return self.calculate_happiness() < MAX_HAPPINESS
 
     @property
     def is_sick(self):
@@ -80,7 +109,7 @@ class ClickGame:
     def start(self):
         self.position = (randint(0, self.width), randint(0, self.height))
 
-    def hadle_touch(self, coordinates):
+    def handle_touch(self, coordinates):
         if coordinates[0] in range(0, self.width)\
            and coordinates[1] in range(0, self.height):
             self.touch_counter += 1

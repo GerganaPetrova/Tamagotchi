@@ -11,18 +11,49 @@
                 multiline: False
 
         BoxLayout:
-            id: panda
+            id: panda_button
             Button:
                 on_press: root.create_panda(text_input)
                 Image:
                     source: './images/pandas/panda_button.png'
                     center: self.parent.center
         BoxLayout:
-            id: doctor
+            id: doctor_button
             Button:
                 on_press: root.create_doctor(text_input)
                 Image:
                     source: './images/doctors/08.5.png'
                     center: self.parent.center
-
     
+     
+<PandaScreen>:
+    BoxLayout:
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            BoxLayout:
+                id: panda_tamagotchi 
+                Image:
+                    source: './images/pandas/first_panda.png'
+                
+        
+        BoxLayout:
+            id: progress_bars
+            orientation: 'vertical'
+            spacing: 5 
+
+            Label:
+                id: energy_bar
+                text: "Energy: %d" % root.panda_energy() 
+            Label:
+                id: health_bar
+                text: "Health: %d" % root.panda_health()
+            Label:
+                id: happiness_bar
+                text: "Happiness: %d" % root.panda_happiness()
+            Label:
+                id: clean_bar
+                text: "Clean: %d" % root.panda_clean()
+            Label:
+                id: hunger_bar
+                text: "Hynger: %d" % root.panda_hunger() 
