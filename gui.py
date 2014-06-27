@@ -1,3 +1,5 @@
+import itertools
+
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -10,7 +12,8 @@ from kivy.uix.image import Image
 from kivy.uix.textinput import TextInput
 from kivy.uix.progressbar import ProgressBar
 from kivy.clock import Clock
-from functools import partial
+from random import choice
+import os, sys
 from core import *
 from config import *
 
@@ -31,16 +34,15 @@ class LoginScreen(Screen):
 
 class PandaScreen(Screen):
     def initialize(self):
-        name = screens['login_screen'].ids.text_input.text
-        self.panda = Panda(name)
-        self.frame_count = 0
+        self.name = screens['login_screen'].ids.text_input.text
+        self.panda = Panda(self.name)
         Clock.schedule_interval(self.make_hungry, HUNGER_TIME)
         Clock.schedule_interval(self.make_dirty, ClEAN_TIME)
         Clock.schedule_interval(self.make_sleep, SLEEP_TIME)
-        Clock.schedule_interval(self.get_sick, 2)
-        Clock.schedule_interval(self.calculate_happiness, 2)
+        Clock.schedule_interval(self.get_sick, 60)
+        Clock.schedule_interval(self.calculate_happiness, 20)
         Clock.schedule_interval(self.update_labels, 0.1)
-        Clock.schedule_interval(self.update_picture, 0.1)
+        Clock.schedule_interval(self.update_picture, 0.01)
 
 
     def make_hungry(self, dt):
@@ -57,7 +59,6 @@ class PandaScreen(Screen):
 
     def calculate_happiness(self, dt):
         self.panda.calculate_happiness()
-
 
 
     def panda_pictures(self):
@@ -116,9 +117,60 @@ class PandaScreen(Screen):
     def update_picture(self, dt):
         self.ids.panda_image.source = self.panda_pictures()
 
-class GameScreen(Screen):
-    pass
+    def stop_all_the_schedules(self):
+        Clock.unschedule(self.make_hungry)
+        Clock.unschedule(self.make_dirty)
+        Clock.unschedule(self.make_sleep)
+        Clock.unschedule(self.get_sick)
+        Clock.unschedule(self.calculate_happiness)
+        Clock.unschedule(self.update_labels)
+        Clock.unschedule(self.update_picture)
 
+class GameScreen(Screen):
+    def initialize(self):
+        self.game = ClickGame(3, 3)
+        self.picture = self.random_picture()
+        Clock.schedule_interval(self.update, 1)
+
+    def update(self, dt):
+        if self.game.is_over:
+            print(self.game.position)
+            return False
+        else:
+            self.game.update()
+
+            for box_layout in self.ids.game_grid.children:
+                box_layout.children[0].source = './images/black_tile.png'
+
+            self.ids['%dx%d' % (self.game.position)].source = self.picture
+            print('KIL')
+
+    def random_picture(self):
+        pictures = os.listdir('./images/pandas/')
+        random_picture = choice(pictures)
+        return './images/pandas/' + random_picture
+
+    def coordinate_transform(self, coordinates):
+        IMG_WIDTH,IMG_HEIGHT = (135, 138)
+        for x, y in itertools.product(range(3), range(3)):
+            grid_element = self.ids['%dx%d' % (x, y)]
+            relative_coordinates = grid_element.to_widget(*coordinates, relative=True)
+            if (0 < relative_coordinates[0] < IMG_HEIGHT and
+                0 < relative_coordinates[1] < IMG_WIDTH):
+                return x, y
+
+    def on_touch_down(self, touch):
+        pos = self.coordinate_transform(touch.pos)
+        if not pos:
+            # evil bug :(
+            return
+
+        self.game.handle_touch(pos)
+        self.update_score_display()
+
+    def update_score_display(self):
+        self.ids.points.text = str(self.game.points)
+        self.ids.touch_counter = self.game.touch_counter
 
 
 screen_manager = ScreenManager()

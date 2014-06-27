@@ -8,11 +8,11 @@ class Tamagotchi:
     def __init__(self, name):
         self._is_alive = True
         self._name = name
-        self._energy = STARTING_ENERGY
-        self._health = STARTING_HEALTH
-        self._hunger = STARTING_HUNGER
-        self._clean = STARTING_CLEAN
-        self._happiness = STARTING_HAPPINESS
+        self._energy = MAX_ENERGY
+        self._health = MAX_HEALTH
+        self._hunger = MAX_HUNGER
+        self._clean = MAX_CLEAN
+        self._happiness = MAX_HAPPINESS
 
     @property
     def name(self):
@@ -82,23 +82,23 @@ class Tamagotchi:
 
     @property
     def is_hungry(self):
-        return self._hunger < MAX_HUNGER
+        return self._hunger < MAX_HUNGER / 2
 
     @property
     def is_tired(self):
-        return self._energy < MAX_ENERGY
+        return self._energy < MAX_ENERGY / 2
 
     @property
     def is_sad(self):
-        return self.calculate_happiness() < MAX_HAPPINESS
+        return self.calculate_happiness() < MAX_HAPPINESS / 2
 
     @property
     def is_sick(self):
-        return self._health < MAX_HEALTH
+        return self._health < MAX_HEALTH / 2
 
     @property
     def is_dirty(self):
-        return self._clean < MAX_CLEAN
+        return self._clean < MAX_CLEAN / 2
 
     @property
     def is_alive(self):
@@ -111,22 +111,35 @@ class ClickGame:
         self.width = width
         self.height = height
         self.touch_counter = 0
+        self.points = 0
+
+    @property
+    def is_over(self):
+        print(self.touch_counter)
+        return self.touch_counter >= GAME_MAX_MOVES
 
     def start(self):
-        self.position = (randint(0, self.width), randint(0, self.height))
+        self.update()
 
     def handle_touch(self, coordinates):
         if coordinates[0] in range(0, self.width)\
            and coordinates[1] in range(0, self.height):
             self.touch_counter += 1
-        raise TypeError("Out of board")
+
+            if self.is_correct(coordinates):
+                self.points += 1
+        else:
+            raise TypeError("Out of board")
 
     def is_correct(self, coordinates):
         return self.position == coordinates
 
 
     def update(self):
-        self.position = (randint(0, self.width), randint(0, self.height))
+        self.position = (
+            randint(0, self.width - 1),
+            randint(0, self.height - 1)
+        )
 
 class Panda(Tamagotchi):
 
