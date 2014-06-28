@@ -55,8 +55,8 @@ class Tamagotchi:
 
     def clear(self):
         self._clean += CLEAN_UPDATE
-        if self._clean > 10:
-            self._clean = 10
+        if self._clean > MAX_CLEAN:
+            self._clean = MAX_CLEAN
 
     def sleep(self):
         self._energy = MAX_ENERGY
@@ -114,7 +114,6 @@ class ClickGame:
 
     @property
     def is_over(self):
-        print(self.touch_counter)
         return self.touch_counter >= GAME_MAX_MOVES
 
     def start(self):

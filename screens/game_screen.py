@@ -4,7 +4,6 @@ from random import choice
 
 from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
-
 from core import ClickGame
 from config import *
 
@@ -12,8 +11,9 @@ from config import *
 class GameScreen(Screen):
     def initialize(self):
         self.game = ClickGame(3, 3)
-        self.player = self.manager.previous()
-        if self.manager.previous() == 'panda_screen':
+        self.player = 'panda_screen'
+        if self.player == 'panda_screen':
+            print(self.player)
             self.picture = self.random_panda_picture()
         else:
             self.picture = self.random_doctor_picture()
