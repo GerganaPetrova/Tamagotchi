@@ -12,7 +12,11 @@ from config import *
 class GameScreen(Screen):
     def initialize(self):
         self.game = ClickGame(3, 3)
-        self.picture = self.random_picture()
+        self.player = self.manager.previous()
+        if self.manager.previous() == 'panda_screen':
+            self.picture = self.random_panda_picture()
+        else:
+            self.picture = self.random_doctor_picture()
         Clock.schedule_interval(self.update, 1)
 
     def update(self, dt):
@@ -26,22 +30,27 @@ class GameScreen(Screen):
 
             self.ids['%dx%d' % (self.game.position)].source = self.picture
 
-    def random_picture(self):
+    def random_panda_picture(self):
         pictures = os.listdir('./images/pandas/')
         random_picture = choice(pictures)
         return './images/pandas/' + random_picture
+
+    def random_doctor_picture(self):
+        pictures = os.listdir('./images/doctors/')
+        random_picture = choice(pictures)
+        return './images/doctors/' + random_picture
 
     def coordinate_transform(self, coordinates):
         for x, y in itertools.product(range(3), range(3)):
             grid_element = self.ids['%dx%d' % (x, y)]
             relative_coordinates = grid_element.to_widget(*coordinates, relative=True)
             if (0 < relative_coordinates[0] < grid_element.width and
-                0 < relative_coordinates[1] < grid_element.height):
+                    0 < relative_coordinates[1] < grid_element.height):
                 return x, y
 
     def on_touch_down(self, touch):
         if self.game.is_over:
-            self.manager.current = 'panda_screen'
+            self.manager.current = self.manager.previous()
         pos = self.coordinate_transform(touch.pos)
         if not pos:
             # evil bug :(
