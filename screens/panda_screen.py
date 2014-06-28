@@ -3,6 +3,7 @@ from core import Panda
 from kivy.clock import Clock
 from config import *
 
+
 class PandaScreen(Screen):
     def initialize(self):
         name = self.manager.get_screen('login_screen').ids.text_input.text
@@ -14,7 +15,6 @@ class PandaScreen(Screen):
         Clock.schedule_interval(self.calculate_happiness, 20)
         Clock.schedule_interval(self.update_labels, 0.1)
         Clock.schedule_interval(self.update_picture, 0.01)
-
 
     def make_hungry(self, dt):
         self.panda.make_hungry()
@@ -30,7 +30,6 @@ class PandaScreen(Screen):
 
     def calculate_happiness(self, dt):
         self.panda.calculate_happiness()
-
 
     def panda_pictures(self):
         if not self.panda.is_alive:
@@ -82,8 +81,9 @@ class PandaScreen(Screen):
         self.ids.energy_bar.text = 'Energy: ' + str(self.panda_energy())
         self.ids.health_bar.text = 'Health: ' + str(self.panda_health())
         self.ids.happiness_bar.text = 'Happiness: ' + str(self.panda_happiness())
-        self.ids.clean_bar.text = 'Clean: ' +str(self.panda_clean())
+        self.ids.clean_bar.text = 'Clean: ' + str(self.panda_clean())
         self.ids.hunger_bar.text = 'Hunger: ' + str(self.panda_hunger())
+        self.ids.panda_name = self.panda.name
 
     def update_picture(self, dt):
         self.ids.panda_image.source = self.panda_pictures()

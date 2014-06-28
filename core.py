@@ -38,9 +38,8 @@ class Tamagotchi:
     def happiness(self):
         return self._happiness
 
-
     def calculate_happiness(self):
-        return (self._energy +  self._health
+        return (self._energy + self._health
                 + self._hunger + self._clean) / 4
 
     def feed(self):
@@ -134,12 +133,12 @@ class ClickGame:
     def is_correct(self, coordinates):
         return self.position == coordinates
 
-
     def update(self):
         self.position = (
             randint(0, self.width - 1),
             randint(0, self.height - 1)
         )
+
 
 class Panda(Tamagotchi):
 
@@ -151,10 +150,21 @@ class Doctor(Tamagotchi):
 
     def __init__(self, name):
         Tamagotchi.__init__(self, name)
-        incarnation = 1
+        self._incarnation = 1
+
+    @property
+    def incarnation(self):
+        return self._incarnation
+
+    def get_sick(self):
+        if self._health <= 0:
+            self.kill()
+            self._health = MAX_HEALTH
+        else:
+            self._health -= HEALTH_UPDATE
 
     def kill(self):
-        if number > 11:
+        if self.incarnation > 11:
             self.is_alive = False
         else:
-            self.incarnation += 1
+            self._incarnation += 1

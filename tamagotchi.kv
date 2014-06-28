@@ -38,6 +38,89 @@
                 Image:
                     id: panda_image
                     source: './images/pandas/first_panda.png'
+            Label:
+                pos: (200, 100)
+                id: panda_name
+            Button:
+                id: feed
+                on_press: root.feed_button()
+                background_color: [1,1,1,0]
+                pos: (10, 10)
+                size_hint: (0.2, 0.2)
+
+                Image:
+                    source: './images/buttons/bamboo.png'
+                    center: self.parent.center
+                    size: (60, 60)
+            Button:
+                id: clear
+                on_press: root.clear_button()
+                background_color: [1,1,1,0]
+                pos: (100, 10)
+                size_hint: (0.2, 0.2)
+                Image:
+                    source: './images/buttons/clean.png'
+                    center: self.parent.center
+                    size: (60, 60)
+            Button:
+                id: heal 
+                on_press: root.heal_button()
+                background_color: [1,1,1,0]
+                pos: (190, 10)
+                size_hint: (0.2, 0.2)
+                Image:
+                    source: './images/buttons/heal.png'
+                    center: self.parent.center
+                    size: (60, 60)
+            Button:
+                id: sleep 
+                on_press: root.sleep_button()
+                background_color: [1,1,1,0]
+                pos: (280, 10)
+                size_hint: (0.2, 0.2)
+                Image:
+                    source: './images/buttons/sleep.png'
+                    center: self.parent.center
+                    size: (60, 60)
+            Button:
+                id: play 
+                on_press: root.play_button()
+                background_color: [1,1,1,0]
+                pos: (370, 10)
+                size_hint: (0.2, 0.2)
+                Image:
+                    source: './images/buttons/play.png'
+                    center: self.parent.center
+                    size: (60, 60)
+        BoxLayout:
+            id: progress_bars
+            orientation: 'vertical'
+            spacing: 5 
+
+            Label:
+                id: energy_bar
+            Label:
+                id: health_bar
+            Label:
+                id: happiness_bar
+            Label:
+                id: clean_bar
+            Label:
+                id: hunger_bar
+
+<DoctorScreen>:
+    on_enter: root.initialize()
+    on_leave: root.stop_all_the_schedules()
+    BoxLayout:
+        FloatLayout:
+            BoxLayout:
+                id: doctor_tamagotchi 
+                Image:
+                    id: doctor_image
+                    source: './images/doctor/01.png'
+            Label:
+                pos: (200, 100)
+                id: doctor_name
             Button:
                 id: feed
                 on_press: root.feed_button()

@@ -56,7 +56,8 @@ class TestTamagotchi(unittest.TestCase):
         self.assertFalse(self.tamagotchi.is_tired)
 
     def test_calculate_strarting_happiness(self):
-        self.assertEqual(self.tamagotchi.happiness, self.tamagotchi.calculate_happiness())
+        self.assertEqual(self.tamagotchi.happiness,
+                         self.tamagotchi.calculate_happiness())
 
     def test_calculate_happiness(self):
         self.tamagotchi._energy = 10

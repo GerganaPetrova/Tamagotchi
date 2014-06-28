@@ -17,7 +17,6 @@ class GameScreen(Screen):
 
     def update(self, dt):
         if self.game.is_over:
-            print('OVER')
             return False
         else:
             self.game.update()
@@ -26,7 +25,6 @@ class GameScreen(Screen):
                 box_layout.children[0].source = './images/black_tile.png'
 
             self.ids['%dx%d' % (self.game.position)].source = self.picture
-            print('KIL')
 
     def random_picture(self):
         pictures = os.listdir('./images/pandas/')
@@ -34,12 +32,11 @@ class GameScreen(Screen):
         return './images/pandas/' + random_picture
 
     def coordinate_transform(self, coordinates):
-        IMG_WIDTH,IMG_HEIGHT = (135, 138)
         for x, y in itertools.product(range(3), range(3)):
             grid_element = self.ids['%dx%d' % (x, y)]
             relative_coordinates = grid_element.to_widget(*coordinates, relative=True)
-            if (0 < relative_coordinates[0] < IMG_HEIGHT and
-                0 < relative_coordinates[1] < IMG_WIDTH):
+            if (0 < relative_coordinates[0] < grid_element.width and
+                0 < relative_coordinates[1] < grid_element.height):
                 return x, y
 
     def on_touch_down(self, touch):
@@ -48,6 +45,7 @@ class GameScreen(Screen):
         pos = self.coordinate_transform(touch.pos)
         if not pos:
             # evil bug :(
+            print('evil bug')
             return
 
         self.game.handle_touch(pos)
